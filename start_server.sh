@@ -2,5 +2,13 @@
 set -e
 
 
-docker build -t test/geoserver .
-docker run -p8080:8080 -v$NC_GEOSERVER_DATA_DIR/geoserver:/geoserver_data:rw test/geoserver
+source environment.sh
+
+
+docker build \
+    --tag "$image_name" \
+    .
+docker run \
+    --publish 18080:8080 \
+    --volume $NC_GEOSERVER_DATA_DIR/geoserver:/geoserver_data:rw \
+    $image_name
